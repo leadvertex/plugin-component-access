@@ -9,6 +9,7 @@ namespace Leadvertex\Plugin\Components\Access\Token;
 
 
 use Lcobucci\JWT\Token;
+use Leadvertex\Plugin\Components\Db\Components\PluginReference;
 
 interface InputTokenInterface
 {
@@ -20,6 +21,8 @@ interface InputTokenInterface
     public function getBackendUri(): string;
 
     public function getInputToken(): Token;
+
+    public function getPluginReference(): PluginReference;
 
     public function getOutputToken(): Token;
 

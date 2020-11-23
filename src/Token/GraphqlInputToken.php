@@ -16,6 +16,7 @@ use Lcobucci\JWT\Token;
 use Leadvertex\Plugin\Components\Access\PublicKey\Exceptions\TokenVerificationException;
 use Leadvertex\Plugin\Components\Access\PublicKey\PublicKey;
 use Leadvertex\Plugin\Components\Access\Registration\Registration;
+use Leadvertex\Plugin\Components\Db\Components\PluginReference;
 use RuntimeException;
 
 class GraphqlInputToken implements InputTokenInterface
@@ -45,6 +46,15 @@ class GraphqlInputToken implements InputTokenInterface
     public function getInputToken(): Token
     {
         return $this->inputToken;
+    }
+
+    public function getPluginReference(): PluginReference
+    {
+        return new PluginReference(
+            $this->getInputToken()->getClaim('cid'),
+            $this->getInputToken()->getClaim('plugin')->alias,
+            $this->getInputToken()->getClaim('plugin')->id,
+        );
     }
 
     public function getId(): string
