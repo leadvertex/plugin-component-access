@@ -11,14 +11,11 @@ namespace Leadvertex\Plugin\Components\Access\Registration;
 use Lcobucci\JWT\Token;
 use Leadvertex\Plugin\Components\Access\PublicKey\Exceptions\TokenVerificationException;
 use Leadvertex\Plugin\Components\Access\PublicKey\PublicKey;
-use Leadvertex\Plugin\Components\Db\ModelTrait;
+use Leadvertex\Plugin\Components\Db\Model;
 use Leadvertex\Plugin\Components\Db\SinglePluginModelInterface;
-use Leadvertex\Plugin\Components\Db\SinglePluginModelTrait;
 
-class Registration implements SinglePluginModelInterface
+class Registration extends Model implements SinglePluginModelInterface
 {
-
-    use ModelTrait, SinglePluginModelTrait;
 
     protected int $registeredAt;
     protected string $LVPT;

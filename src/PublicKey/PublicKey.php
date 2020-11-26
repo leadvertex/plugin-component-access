@@ -12,15 +12,12 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token;
 use Leadvertex\Plugin\Components\Access\PublicKey\Exceptions\TokenVerificationException;
-use Leadvertex\Plugin\Components\Db\ModelInterface;
-use Leadvertex\Plugin\Components\Db\ModelTrait;
+use Leadvertex\Plugin\Components\Db\Model;
 use Leadvertex\Plugin\Components\Guzzle\Guzzle;
 use League\Uri\UriString;
 
-class PublicKey implements ModelInterface
+class PublicKey extends Model
 {
-
-    use ModelTrait;
 
     private string $key;
 
@@ -82,7 +79,7 @@ class PublicKey implements ModelInterface
             throw new TokenVerificationException("Input token sign was not verified", 400);
         }
 
-        if ($key->_isNew) {
+        if ($key->isNewModel()) {
             $key->save();
         }
 
