@@ -19,7 +19,7 @@ use League\Uri\UriString;
 class PublicKey extends Model
 {
 
-    private string $key;
+    protected string $key;
 
     protected function __construct(string $publicKey)
     {
@@ -70,7 +70,7 @@ class PublicKey extends Model
             $endpoint['query'] = null;
             $endpoint['fragment'] = null;
             $companyId = $token->getClaim('cid');
-            $uri = UriString::build($endpoint) . "/companies/{$companyId}/CRM/plugin/pkey";
+            $uri = UriString::build($endpoint) . "/companies/{$companyId}/CRM/plugin/pkey/{$hash}";
             $publicKey = Guzzle::getInstance()->get($uri)->getBody()->getContents();
             $key = new self($publicKey);
         }
