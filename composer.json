@@ -16,7 +16,7 @@
     "lcobucci/jwt": "^3.3",
     "league/uri": "^6.0",
     "leadvertex/plugin-component-db": "^0.3.5",
-    "leadvertex/plugin-component-guzzle": "^0.2"
+    "leadvertex/plugin-component-guzzle": "^0.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.0.0"
