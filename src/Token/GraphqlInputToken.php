@@ -17,6 +17,7 @@ use Leadvertex\Plugin\Components\Access\PublicKey\Exceptions\TokenVerificationEx
 use Leadvertex\Plugin\Components\Access\PublicKey\PublicKey;
 use Leadvertex\Plugin\Components\Access\Registration\Registration;
 use Leadvertex\Plugin\Components\Db\Components\PluginReference;
+use Leadvertex\Plugin\Components\Info\Info;
 use RuntimeException;
 
 class GraphqlInputToken implements InputTokenInterface
@@ -71,7 +72,7 @@ class GraphqlInputToken implements InputTokenInterface
     {
         return (new Builder())
             ->withClaim('jwt', (string) $this->getInputToken())
-            ->withClaim('plugin', $_ENV['LV_PLUGIN_SELF_TYPE'])
+            ->withClaim('plugin', Info::getInstance()->getType())
             ->getToken(new Sha512(), new Key(Registration::find()->getLVPT()));
     }
 
