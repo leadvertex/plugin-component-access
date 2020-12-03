@@ -28,4 +28,6 @@ interface InputTokenInterface
 
     public static function getInstance(): ?InputTokenInterface;
 
+    public static function setInstance(?InputTokenInterface $token): void;
+
 }

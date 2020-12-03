@@ -40,8 +40,6 @@ class GraphqlInputToken implements InputTokenInterface
 
         $this->inputToken = (new Parser())->parse($token);
         PublicKey::verify($this->inputToken);
-
-        self::$instance = $this;
     }
 
     public function getInputToken(): Token
@@ -79,5 +77,10 @@ class GraphqlInputToken implements InputTokenInterface
     public static function getInstance(): ?InputTokenInterface
     {
         return self::$instance;
+    }
+
+    public static function setInstance(?InputTokenInterface $token): void
+    {
+        self::$instance = $token;
     }
 }
