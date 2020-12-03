@@ -72,7 +72,7 @@ class GraphqlInputToken implements InputTokenInterface
     {
         return (new Builder())
             ->withClaim('jwt', (string) $this->getInputToken())
-            ->withClaim('plugin', Info::getInstance()->getType())
+            ->withClaim('plugin', (string) Info::getInstance()->getType())
             ->getToken(new Sha512(), new Key(Registration::find()->getLVPT()));
     }
 
