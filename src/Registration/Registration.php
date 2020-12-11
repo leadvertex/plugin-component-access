@@ -8,9 +8,13 @@
 namespace Leadvertex\Plugin\Components\Access\Registration;
 
 
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use Leadvertex\Plugin\Components\Access\PublicKey\Exceptions\TokenVerificationException;
 use Leadvertex\Plugin\Components\Access\PublicKey\PublicKey;
+use Leadvertex\Plugin\Components\Db\Components\Connector;
 use Leadvertex\Plugin\Components\Db\Model;
 use Leadvertex\Plugin\Components\Db\SinglePluginModelInterface;
 
@@ -40,6 +44,22 @@ class Registration extends Model implements SinglePluginModelInterface
     public function getLVPT(): string
     {
         return $this->LVPT;
+    }
+
+    public function getOutputToken(callable $handler): Token
+    {
+        $reference = Connector::getReference();
+
+        $builder = new Builder();
+        $builder->issuedBy($_ENV['LV_PLUGIN_SELF_URI']);
+        $builder->withClaim('cid', $reference->getCompanyId());
+        $builder->withClaim('plugin', [
+            'alias' => $reference->getAlias(),
+            'id' => $reference->getId(),
+        ]);
+        $handler($builder);
+
+        return $builder->getToken(new Sha512(), new Key($this->getLVPT()));
     }
 
     public static function schema(): array
