@@ -36,6 +36,14 @@ class Registration extends Model implements SinglePluginModelInterface
         $this->LVPT = $token->getClaim('LVPT');
     }
 
+    /**
+     * @return Registration|Model|null
+     */
+    public static function find(): ?Model
+    {
+        return parent::find();
+    }
+
     public function getRegisteredAt(): int
     {
         return $this->registeredAt;
