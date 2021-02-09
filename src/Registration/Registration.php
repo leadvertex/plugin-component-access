@@ -54,7 +54,7 @@ class Registration extends Model implements SinglePluginModelInterface
         return $this->LVPT;
     }
 
-    public function getOutputToken(array $body): Token
+    public function getOutputToken(array $body, int $ttl): Token
     {
         $reference = Connector::getReference();
 
@@ -66,6 +66,7 @@ class Registration extends Model implements SinglePluginModelInterface
             'id' => $reference->getId(),
         ]);
         $builder->withClaim('body', $body);
+        $builder->expiresAt(time() + $ttl);
 
         return $builder->getToken(new Sha512(), new Key($this->getLVPT()));
     }
