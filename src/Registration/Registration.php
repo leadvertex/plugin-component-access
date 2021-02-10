@@ -8,6 +8,8 @@
 namespace Leadvertex\Plugin\Components\Access\Registration;
 
 
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Response;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Signer\Key;
@@ -17,6 +19,8 @@ use Leadvertex\Plugin\Components\Access\PublicKey\PublicKey;
 use Leadvertex\Plugin\Components\Db\Components\Connector;
 use Leadvertex\Plugin\Components\Db\Model;
 use Leadvertex\Plugin\Components\Db\SinglePluginModelInterface;
+use Leadvertex\Plugin\Components\Guzzle\Guzzle;
+use Psr\Http\Message\ResponseInterface;
 
 class Registration extends Model implements SinglePluginModelInterface
 {
@@ -54,7 +58,15 @@ class Registration extends Model implements SinglePluginModelInterface
         return $this->LVPT;
     }
 
-    public function getOutputToken(array $body, int $ttl): Token
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param array $body
+     * @param int $ttl
+     * @return Response
+     * @throws GuzzleException
+     */
+    public function makeSpecialRequest(string $method, string $uri, array $body, int $ttl): ResponseInterface
     {
         $reference = Connector::getReference();
 
@@ -68,7 +80,12 @@ class Registration extends Model implements SinglePluginModelInterface
         $builder->withClaim('body', $body);
         $builder->expiresAt(time() + $ttl);
 
-        return $builder->getToken(new Sha512(), new Key($this->getLVPT()));
+        $jwt = $builder->getToken(new Sha512(), new Key($this->getLVPT()));
+        return Guzzle::getInstance()->request(
+            $method,
+            $uri,
+            ['json' => ['request' => (string) $jwt]]
+        );
     }
 
     public static function schema(): array
