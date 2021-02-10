@@ -58,15 +58,7 @@ class Registration extends Model implements SinglePluginModelInterface
         return $this->LVPT;
     }
 
-    /**
-     * @param string $method
-     * @param string $uri
-     * @param array $body
-     * @param int $ttl
-     * @return Response
-     * @throws GuzzleException
-     */
-    public function makeSpecialRequest(string $method, string $uri, array $body, int $ttl): ResponseInterface
+    public function getSpecialRequestToken(array $body, int $ttl): Token
     {
         $reference = Connector::getReference();
 
@@ -80,11 +72,23 @@ class Registration extends Model implements SinglePluginModelInterface
         $builder->withClaim('body', $body);
         $builder->expiresAt(time() + $ttl);
 
-        $jwt = $builder->getToken(new Sha512(), new Key($this->getLVPT()));
+        return $builder->getToken(new Sha512(), new Key($this->getLVPT()));
+    }
+
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param array $body
+     * @param int $ttl
+     * @return Response
+     * @throws GuzzleException
+     */
+    public function makeSpecialRequest(string $method, string $uri, array $body, int $ttl): ResponseInterface
+    {
         return Guzzle::getInstance()->request(
             $method,
             $uri,
-            ['json' => ['request' => (string) $jwt]]
+            ['json' => ['request' => (string) $this->getSpecialRequestToken($body, $ttl)]]
         );
     }
 
