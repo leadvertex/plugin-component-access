@@ -27,6 +27,7 @@ class Registration extends Model implements SinglePluginModelInterface
 
     protected int $registeredAt;
     protected string $LVPT;
+    protected string $clusterUri;
 
     /**
      * Registration constructor.
@@ -38,6 +39,7 @@ class Registration extends Model implements SinglePluginModelInterface
         $this->registeredAt = time();
         PublicKey::verify($token);
         $this->LVPT = $token->getClaim('LVPT');
+        $this->clusterUri = $token->getClaim('iss');
     }
 
     /**
@@ -58,12 +60,18 @@ class Registration extends Model implements SinglePluginModelInterface
         return $this->LVPT;
     }
 
+    public function getClusterUri(): string
+    {
+        return $this->clusterUri;
+    }
+
     public function getSpecialRequestToken(array $body, int $ttl): Token
     {
         $reference = Connector::getReference();
 
         $builder = new Builder();
         $builder->issuedBy($_ENV['LV_PLUGIN_SELF_URI']);
+        $builder->permittedFor($this->getClusterUri());
         $builder->withClaim('cid', $reference->getCompanyId());
         $builder->withClaim('plugin', [
             'alias' => $reference->getAlias(),
@@ -97,6 +105,7 @@ class Registration extends Model implements SinglePluginModelInterface
         return [
             'registeredAt' => ['INT', 'NOT NULL'],
             'LVPT' => ['CHAR(512)', 'NOT NULL'],
+            'clusterUri' => ['CHAR(512)', 'NOT NULL'],
         ];
     }
 }
