@@ -35,7 +35,7 @@ class PublicKey extends Model
     public static function schema(): array
     {
         return [
-            'key' => ['TEXT', 'NOT NULL'],
+            'content' => ['TEXT', 'NOT NULL'],
         ];
     }
 

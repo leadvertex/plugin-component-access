@@ -104,8 +104,8 @@ class Registration extends Model implements SinglePluginModelInterface
     {
         return [
             'registeredAt' => ['INT', 'NOT NULL'],
-            'LVPT' => ['CHAR(512)', 'NOT NULL'],
-            'clusterUri' => ['CHAR(512)', 'NOT NULL'],
+            'LVPT' => ['VARCHAR(512)', 'NOT NULL'],
+            'clusterUri' => ['VARCHAR(512)', 'NOT NULL'],
         ];
     }
 }
