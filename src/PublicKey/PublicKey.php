@@ -19,23 +19,23 @@ use League\Uri\UriString;
 class PublicKey extends Model
 {
 
-    protected string $key;
+    protected string $content;
 
     protected function __construct(string $publicKey)
     {
         $this->id = md5($publicKey);
-        $this->key = $publicKey;
+        $this->content = $publicKey;
     }
 
     protected function getPublicKey(): Key
     {
-        return new Key($this->key);
+        return new Key($this->content);
     }
 
     public static function schema(): array
     {
         return [
-            'key' => ['TEXT', 'NOT NULL'],
+            'content' => ['TEXT', 'NOT NULL'],
         ];
     }
 
