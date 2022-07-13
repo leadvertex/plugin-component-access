@@ -57,7 +57,7 @@ class PublicKey extends Model
             throw new TokenVerificationException("Issuer scheme is not '{$scheme}'", 200);
         }
 
-        $hostname = $_ENV['LV_PLUGIN_COMPONENT_REGISTRATION_HOSTNAME'] ?? 'leadvertex.com';
+        $hostname = $_ENV['LV_PLUGIN_COMPONENT_REGISTRATION_HOSTNAME'] ?? 'backend.leadvertex.com';
         if (!preg_match('~(^|\.)' . preg_quote($hostname) . '$~ui', $endpoint['host'])) {
             throw new TokenVerificationException("Issuer hostname is not '{$hostname}'", 300);
         }
