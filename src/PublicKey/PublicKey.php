@@ -69,8 +69,7 @@ class PublicKey extends Model
             $endpoint['path'] = null;
             $endpoint['query'] = null;
             $endpoint['fragment'] = null;
-            $companyId = $token->getClaim('cid');
-            $uri = UriString::build($endpoint) . "/companies/{$companyId}/CRM/plugin/pkey/{$hash}";
+            $uri = UriString::build($endpoint) . "/pkey/{$hash}";
             $publicKey = Guzzle::getInstance()->get($uri)->getBody()->getContents();
             $key = new self($publicKey);
         }
