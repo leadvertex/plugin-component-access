@@ -62,7 +62,7 @@ class PublicKey extends Model
             throw new TokenVerificationException("Issuer hostname is not '{$hostname}'", 300);
         }
 
-        $hash = $token->getHeader('phash');
+        $hash = $token->getHeader('pkey');
         $key = self::findById($hash);
 
         if (!$key) {
