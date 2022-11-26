@@ -18,6 +18,8 @@ interface InputTokenInterface
 
     public function getId(): string;
 
+    public function getCompanyId(): string;
+
     public function getBackendUri(): string;
 
     public function getInputToken(): Token;

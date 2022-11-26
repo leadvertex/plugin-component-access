@@ -61,6 +61,11 @@ class GraphqlInputToken implements InputTokenInterface
         return $this->getInputToken()->getClaim('jti');
     }
 
+    public function getCompanyId(): string
+    {
+        return $this->getInputToken()->getClaim('cid');
+    }
+
     public function getBackendUri(): string
     {
         return $this->getInputToken()->getClaim('iss');
