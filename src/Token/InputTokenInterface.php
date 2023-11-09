@@ -5,11 +5,11 @@
  * @author Timur Kasumov (XAKEPEHOK)
  */
 
-namespace SalesRender\Plugin\Components\Access\Token;
+namespace Leadvertex\Plugin\Components\Access\Token;
 
 
 use Lcobucci\JWT\Token;
-use SalesRender\Plugin\Components\Db\Components\PluginReference;
+use Leadvertex\Plugin\Components\Db\Components\PluginReference;
 
 interface InputTokenInterface
 {

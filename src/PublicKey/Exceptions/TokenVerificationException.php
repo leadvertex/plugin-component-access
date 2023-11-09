@@ -5,7 +5,7 @@
  * @author Timur Kasumov (XAKEPEHOK)
  */
 
-namespace SalesRender\Plugin\Components\Access\PublicKey\Exceptions;
+namespace Leadvertex\Plugin\Components\Access\PublicKey\Exceptions;
 
 
 use Exception;
